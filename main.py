@@ -98,3 +98,8 @@ async def get_weather_data_by_date(date: str):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app)
