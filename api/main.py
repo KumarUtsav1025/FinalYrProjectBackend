@@ -12,7 +12,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins, change it to specific domains for security
+    allow_origins=["http://localhost:8001"],  # Allows all origins, change it to specific domains for security
     allow_credentials=True,
     allow_methods=["*"],  # Allows all HTTP methods
     allow_headers=["*"],  # Allows all headers
@@ -30,7 +30,7 @@ class WeatherData(BaseModel):
     minute: int
 
 @app.get("/api/update_weather/")
-async def update_weather_data():
+async def home():
     try:
         weather_data = fetch_weather_data()
         predicted_data = ml_model_predict(weather_data)
@@ -68,7 +68,11 @@ app = FastAPI()
 db = get_mongo_client()
 collection = db.forecasts  
 
-@app.get("/api/get_all_data/")
+@app.get("/")
+async def get_all_weather_data():
+    return{"message": "Success"}
+
+@app.get("/api/get_all_data")
 async def get_all_weather_data():
     try:
         documents = list(collection.find({}))
