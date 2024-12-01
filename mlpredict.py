@@ -46,7 +46,7 @@ def ml_model_predict(api_data):
             'cell_temperature': cell_temperature,
             'predicted_power': predicted_power
         })
-
+    print('Success')
     return forecast_data
 
 

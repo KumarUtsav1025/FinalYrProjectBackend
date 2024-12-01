@@ -12,7 +12,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8001"],  # Allows all origins, change it to specific domains for security
+    allow_origins=["*"],  # Allows all origins, change it to specific domains for security
     allow_credentials=True,
     allow_methods=["*"],  # Allows all HTTP methods
     allow_headers=["*"],  # Allows all headers
@@ -28,6 +28,10 @@ class WeatherData(BaseModel):
     predicted_power: float
     hour: int
     minute: int
+
+@app.get("/")
+async def home():
+    return{"message": "Success"}
 
 @app.get("/api/update_weather/")
 async def home():
@@ -60,17 +64,6 @@ async def home():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-from fastapi import FastAPI, HTTPException
-from mongoDB import get_mongo_client
-
-app = FastAPI()
-
-db = get_mongo_client()
-collection = db.forecasts  
-
-@app.get("/")
-async def get_all_weather_data():
-    return{"message": "Success"}
 
 @app.get("/api/get_all_data")
 async def get_all_weather_data():
@@ -104,6 +97,6 @@ async def get_weather_data_by_date(date: str):
         raise HTTPException(status_code=500, detail=str(e))
     
 
-# if __name__ == '__main__':
-#     import uvicorn
-#     uvicorn.run(app)
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app)
